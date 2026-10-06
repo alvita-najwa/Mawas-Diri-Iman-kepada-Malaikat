@@ -1,0 +1,6 @@
+{
+  "name": "Mawas Diri & Introspeksi - Iman kepada Malaikat",
+  "description": "Website pembelajaran interaktif Pendidikan Agama Islam & Budi Pekerti Fase D Kelas VII tentang Iman kepada Malaikat Allah SWT, Mawas Diri, dan Introspeksi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
