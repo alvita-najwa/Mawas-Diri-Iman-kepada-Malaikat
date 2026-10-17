@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ReflectionData } from '../types';
 
-const TOTAL_PAGES = 16;
+const TOTAL_PAGES = 18;
 const STORAGE_KEYS = {
   CURRENT_PAGE: 'mawas_diri_current_page',
   VISITED_PAGES: 'mawas_diri_visited_pages',

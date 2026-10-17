@@ -20,7 +20,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'pengertian-iman',
     title: 'Pengertian Iman',
     subtitle: 'Meyakini, memahami, dan menghayati keberadaan malaikat',
-    pageNumber: 4,
+    pageNumber: 6,
     category: 'Dasar',
     icon: 'Sparkles'
   },
@@ -29,7 +29,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'enam-rukun-iman',
     title: 'Enam Rukun Iman',
     subtitle: 'Kedudukan iman kepada malaikat dalam poros keimanan',
-    pageNumber: 5,
+    pageNumber: 7,
     category: 'Dasar',
     icon: 'CircleDot'
   },
@@ -38,7 +38,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'dalil',
     title: 'Dalil Al-Qur\'an',
     subtitle: 'Q.S. al-Baqarah/2:285 dan terjemahnya',
-    pageNumber: 6,
+    pageNumber: 8,
     category: 'Dasar',
     icon: 'BookOpen'
   },
@@ -47,7 +47,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'sifat-malaikat',
     title: 'Sifat Malaikat',
     subtitle: 'Karakteristik ketaatan dan kesucian malaikat',
-    pageNumber: 7,
+    pageNumber: 9,
     category: 'Karakteristik',
     icon: 'ShieldCheck'
   },
@@ -56,7 +56,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'malaikat-vs-manusia',
     title: 'Malaikat vs Manusia',
     subtitle: 'Perbandingan karakteristik dan amanah penciptaan',
-    pageNumber: 8,
+    pageNumber: 10,
     category: 'Karakteristik',
     icon: 'Columns'
   },
@@ -65,7 +65,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'nama-tugas-malaikat',
     title: 'Nama & Tugas',
     subtitle: '10 malaikat Allah beserta amanah mulianya',
-    pageNumber: 9,
+    pageNumber: 11,
     category: 'Tugas & Catatan',
     icon: 'Layers'
   },
@@ -74,7 +74,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'hikmah',
     title: 'Hikmah Beriman',
     subtitle: 'Dampak keimanan terhadap ketenteraman dan ketaatan',
-    pageNumber: 11,
+    pageNumber: 13,
     category: 'Penerapan Diri',
     icon: 'Compass'
   },
@@ -83,7 +83,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'mawas-diri',
     title: 'Mawas Diri',
     subtitle: 'Berpikir cermat sebelum dan saat bertindak',
-    pageNumber: 12,
+    pageNumber: 14,
     category: 'Penerapan Diri',
     icon: 'Eye'
   },
@@ -92,7 +92,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'kehidupan-sehari-hari',
     title: 'Kehidupan Sehari-hari',
     subtitle: 'Penerapan di sekolah, rumah, pertemanan, dan dunia digital',
-    pageNumber: 14,
+    pageNumber: 16,
     category: 'Penerapan Diri',
     icon: 'MapPin'
   },
@@ -101,7 +101,7 @@ export const MENU_MODULES: LearningModule[] = [
     slug: 'refleksi',
     title: 'Refleksi Diri',
     subtitle: 'Ruang hening merenungkan sikap dan niat baikmu',
-    pageNumber: 15,
+    pageNumber: 17,
     category: 'Penerapan Diri',
     icon: 'HeartHandshake'
   }

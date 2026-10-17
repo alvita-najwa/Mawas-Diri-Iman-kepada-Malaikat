@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLearningProgress } from './hooks/useLearningProgress';
-import { Navbar } from './components/Navigation/Navbar';
+import { useQuizProgress } from './hooks/useQuizProgress';
+import { useWordSearchProgress } from './hooks/useWordSearchProgress';
+import { Navbar, AppTab } from './components/Navigation/Navbar';
 import { BottomNav } from './components/Navigation/BottomNav';
 import { CelestialBackgroundPattern } from './components/Decorations/IslamicGeometry';
 
-// Pages
+// Learning Module Pages
 import { LandingPage } from './pages/01_LandingPage';
 import { PemantikPage } from './pages/02_PemantikPage';
+import { AgendaKegiatanPage } from './pages/02b_AgendaKegiatanPage';
+import { PembagianKelompokPage } from './pages/02c_PembagianKelompokPage';
 import { MainMenuPage } from './pages/03_MainMenuPage';
 import { DefinitionPage } from './pages/04_DefinitionPage';
 import { RukunImanPage } from './pages/05_RukunImanPage';
@@ -22,8 +26,18 @@ import { MawasDiriIntrospeksiPage } from './pages/14_MawasDiriIntrospeksiPage';
 import { DailyLifePage } from './pages/15_DailyLifePage';
 import { ReflectionPage } from './pages/16_ReflectionPage';
 import { ConclusionPage } from './pages/17_ConclusionPage';
+import { VideoLaguPage } from './pages/VideoLaguPage';
+import { GroupScoreboardPage } from './pages/GroupScoreboardPage';
+
+// Interactive Activities
+import { InteractiveQuiz } from './components/Quiz/InteractiveQuiz';
+import { WordSearchGame } from './components/WordSearch/WordSearchGame';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState<AppTab>('beranda');
+  const quizProgress = useQuizProgress();
+  const wordSearchProgress = useWordSearchProgress();
+
   const {
     currentPage,
     totalPages,
@@ -37,15 +51,94 @@ export default function App() {
     resetProgress
   } = useLearningProgress();
 
-  const renderCurrentPage = () => {
+  const handleStartMateri = () => {
+    setActiveTab('materi');
+    goToPage(2);
+  };
+
+  const handleGoToQuiz = () => {
+    quizProgress.autoAdvanceToNextUnanswered();
+    setActiveTab('kuis');
+  };
+
+  const handleSelectTab = (tab: AppTab) => {
+    if (tab === 'kuis') {
+      quizProgress.autoAdvanceToNextUnanswered();
+    }
+    setActiveTab(tab);
+  };
+
+  const renderContent = () => {
+    // Top-Level Interactive Activity: Papan Skor Kelompok
+    if (activeTab === 'papan-skor') {
+      return (
+        <GroupScoreboardPage
+          onBackToHome={() => setActiveTab('beranda')}
+          onGoToMateri={() => {
+            setActiveTab('materi');
+            goToPage(3);
+          }}
+          onGoToQuiz={handleGoToQuiz}
+          onGoToWordSearch={() => setActiveTab('cari-kata')}
+          currentQuizNumber={quizProgress.nextUnansweredNumber}
+          totalQuizQuestions={quizProgress.totalQuestions}
+        />
+      );
+    }
+
+    // Top-Level Interactive Activity: Video & Lagu 10 Malaikat
+    if (activeTab === 'video-lagu') {
+      return (
+        <VideoLaguPage
+          onBackToHome={() => setActiveTab('beranda')}
+          onGoToQuiz={handleGoToQuiz}
+          onGoToWordSearch={() => setActiveTab('cari-kata')}
+        />
+      );
+    }
+
+    // Top-Level Interactive Activity: Kuis
+    if (activeTab === 'kuis') {
+      return (
+        <InteractiveQuiz
+          onBackToHome={() => setActiveTab('beranda')}
+          onGoToMateri={() => {
+            setActiveTab('materi');
+            goToPage(3);
+          }}
+          onGoToScoreboard={() => setActiveTab('papan-skor')}
+          quizProgress={quizProgress}
+        />
+      );
+    }
+
+    // Top-Level Interactive Activity: Game Cari Kata
+    if (activeTab === 'cari-kata') {
+      return (
+        <WordSearchGame
+          onBackToHome={() => setActiveTab('beranda')}
+          onGoToQuiz={handleGoToQuiz}
+          onGoToScoreboard={() => setActiveTab('papan-skor')}
+          wordSearchProgress={wordSearchProgress}
+        />
+      );
+    }
+
+    // Landing / Beranda with navigation portal choices
+    if (activeTab === 'beranda' || (activeTab === 'materi' && currentPage === 1)) {
+      return (
+        <LandingPage
+          onStartMateri={handleStartMateri}
+          onGoToVideoLagu={() => setActiveTab('video-lagu')}
+          onGoToQuiz={handleGoToQuiz}
+          onGoToWordSearch={() => setActiveTab('cari-kata')}
+          onGoToScoreboard={() => setActiveTab('papan-skor')}
+        />
+      );
+    }
+
+    // Guided Learning Modules (Materi)
     switch (currentPage) {
-      case 1:
-        return (
-          <LandingPage
-            onStart={() => goToPage(2)}
-            onExploreMenu={() => goToPage(3)}
-          />
-        );
       case 2:
         return <PemantikPage onContinue={() => goToPage(3)} />;
       case 3:
@@ -99,8 +192,11 @@ export default function App() {
       default:
         return (
           <LandingPage
-            onStart={() => goToPage(2)}
-            onExploreMenu={() => goToPage(3)}
+            onStartMateri={handleStartMateri}
+            onGoToVideoLagu={() => setActiveTab('video-lagu')}
+            onGoToQuiz={handleGoToQuiz}
+            onGoToWordSearch={() => setActiveTab('cari-kata')}
+            onGoToScoreboard={() => setActiveTab('papan-skor')}
           />
         );
     }
@@ -111,42 +207,46 @@ export default function App() {
       {/* Abstract Celestial Background */}
       <CelestialBackgroundPattern />
 
-      {/* Persistent Global Navbar */}
+      {/* Global Navbar */}
       <Navbar
         currentPage={currentPage}
         totalPages={totalPages}
         progressPercentage={progressPercentage}
         visitedPages={visitedPages}
         goToPage={goToPage}
+        activeTab={activeTab}
+        onSelectTab={handleSelectTab}
       />
 
-      {/* Main Content Viewport with Framer Motion Page Transition */}
+      {/* Main Content Viewport with Framer Motion Transition */}
       <main className="flex-1 w-full pb-8">
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentPage}
+            key={activeTab === 'materi' ? `materi-${currentPage}` : activeTab}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             className="w-full"
           >
-            {renderCurrentPage()}
+            {renderContent()}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Persistent Global Bottom Controls */}
-      <BottomNav
-        currentPage={currentPage}
-        totalPages={totalPages}
-        nextPage={nextPage}
-        prevPage={prevPage}
-        goToPage={goToPage}
-        hideHome={currentPage === 1 || currentPage === 3}
-        nextLabel={currentPage === 1 ? 'START' : currentPage === 15 ? 'SELESAI' : 'NEXT'}
-        prevLabel="BACK"
-      />
+      {/* Bottom Nav Controls (displayed only when reading guided learning modules) */}
+      {activeTab === 'materi' && currentPage > 1 && (
+        <BottomNav
+          currentPage={currentPage}
+          totalPages={totalPages}
+          nextPage={nextPage}
+          prevPage={prevPage}
+          goToPage={goToPage}
+          hideHome={currentPage === 3}
+          nextLabel={currentPage === 15 ? 'SELESAI' : 'NEXT'}
+          prevLabel="BACK"
+        />
+      )}
     </div>
   );
 }

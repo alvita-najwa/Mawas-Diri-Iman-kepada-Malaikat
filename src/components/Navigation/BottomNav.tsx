@@ -43,7 +43,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         <div className="flex items-center gap-3">
           {!hideHome && (
             <button
-              onClick={() => goToPage(3)}
+              onClick={() => goToPage(5)}
               className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-[#AFC4D5]/30 bg-white/70 px-3 py-2 text-xs font-semibold text-[#3F4147] transition-all hover:bg-white active:scale-95"
               title="Kembali ke Menu Utama"
               aria-label="Kembali ke Menu Utama"
