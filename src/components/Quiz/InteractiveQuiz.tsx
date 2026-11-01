@@ -178,7 +178,7 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
       {!isCompleted ? (
         /* QUESTION VIEW */
         <div className="space-y-4">
-          {/* Interactive Question Number Navigation Strip (Nomor 1 s.d. 10) */}
+          {/* Interactive Question Number Navigation Strip (Nomor 1 s.d. 5) */}
           <div className="p-3 rounded-2xl bg-white/80 border border-[#AFC4D5]/30 shadow-2xs">
             <div className="flex items-center justify-between gap-2 mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#B8AAA0] flex items-center gap-1.5">

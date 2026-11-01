@@ -26,7 +26,7 @@ const ACTIVITIES = [
   {
     step: 1,
     title: 'Berkelompok',
-    desc: 'Membentuk lima kelompok, masing-masing mendalami dua malaikat.',
+    desc: 'Membentuk tiga kelompok, masing-masing mendalami tugas sepuluh malaikat.',
     icon: Users,
     colorName: 'Biru Lembut',
     accentColor: '#0284C7',
@@ -164,7 +164,7 @@ export const AgendaKegiatanPage: React.FC<AgendaKegiatanPageProps> = ({
                 Petunjuk Guru & Siswa
               </span>
               <p className="text-sm text-[#3F4147]/80 max-w-md mt-0.5">
-                Klik tombol di samping untuk langsung melihat pembagian 5 kelompok dan tugas malaikat masing-masing!
+                Klik tombol untuk acak kelompok.
               </p>
             </div>
           </div>

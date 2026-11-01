@@ -76,7 +76,7 @@ export default function App() {
           onBackToHome={() => setActiveTab('beranda')}
           onGoToMateri={() => {
             setActiveTab('materi');
-            goToPage(3);
+            goToPage(5);
           }}
           onGoToQuiz={handleGoToQuiz}
           onGoToWordSearch={() => setActiveTab('cari-kata')}
@@ -104,7 +104,7 @@ export default function App() {
           onBackToHome={() => setActiveTab('beranda')}
           onGoToMateri={() => {
             setActiveTab('materi');
-            goToPage(3);
+            goToPage(5);
           }}
           onGoToScoreboard={() => setActiveTab('papan-skor')}
           quizProgress={quizProgress}
@@ -143,49 +143,66 @@ export default function App() {
         return <PemantikPage onContinue={() => goToPage(3)} />;
       case 3:
         return (
+          <AgendaKegiatanPage
+            onAyoBerkelompok={() => goToPage(4)}
+            onBackToPemantik={() => goToPage(2)}
+          />
+        );
+      case 4:
+        return (
+          <PembagianKelompokPage
+            onContinueToMateri={() => goToPage(5)}
+            onGoToScoreboard={() => setActiveTab('papan-skor')}
+            onGoToLagu={() => setActiveTab('video-lagu')}
+            onGoToWordSearch={() => setActiveTab('cari-kata')}
+            onBackToAgenda={() => goToPage(3)}
+          />
+        );
+      case 5:
+        return (
           <MainMenuPage
             onSelectPage={goToPage}
             visitedPages={visitedPages}
             progressPercentage={progressPercentage}
           />
         );
-      case 4:
-        return <DefinitionPage />;
-      case 5:
-        return <RukunImanPage />;
       case 6:
-        return <DalilPage />;
+        return <DefinitionPage />;
       case 7:
-        return <AngelTraitsPage />;
+        return <RukunImanPage />;
       case 8:
-        return <ComparisonPage />;
+        return <DalilPage />;
       case 9:
-        return <AngelTasksPage />;
+        return <AngelTraitsPage />;
       case 10:
-        return <RaqibAtidPage />;
+        return <ComparisonPage />;
       case 11:
-        return <WisdomPage />;
+        return <AngelTasksPage />;
       case 12:
-        return <MawasDiriPage />;
+        return <RaqibAtidPage />;
       case 13:
-        return <MawasDiriIntrospeksiPage />;
+        return <WisdomPage />;
       case 14:
-        return <DailyLifePage />;
+        return <MawasDiriPage />;
       case 15:
+        return <MawasDiriIntrospeksiPage />;
+      case 16:
+        return <DailyLifePage />;
+      case 17:
         return (
           <ReflectionPage
             initialReflection={reflection}
             onSaveReflection={saveReflection}
-            onNext={() => goToPage(16)}
+            onNext={() => goToPage(18)}
           />
         );
-      case 16:
+      case 18:
         return (
           <ConclusionPage
             onRestart={() => {
               goToPage(1);
             }}
-            onGoToMenu={() => goToPage(3)}
+            onGoToMenu={() => goToPage(5)}
             reflection={reflection}
           />
         );

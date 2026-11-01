@@ -1,8 +1,8 @@
 import { LearningModule } from '../types';
 
 export const APP_METADATA = {
-  mainTitle: 'MAWAS DIRI DAN INTROSPEKSI DALAM MENJALANI KEHIDUPAN',
-  subtitle: 'Iman kepada Malaikat Allah SWT.',
+  mainTitle: 'MAWAS DIRI MELALUI IMAN KEPADA MALAIKAT ALLAH SWT',
+  subtitle: 'Pendidikan Agama Islam dan Budi Pekerti · Kelas VII',
   tagline: 'KENALI IMAN, KENALI DIRI',
   concept: 'THE INNER JOURNEY',
   subject: 'Pendidikan Agama Islam dan Budi Pekerti',

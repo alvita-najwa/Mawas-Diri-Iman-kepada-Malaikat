@@ -31,55 +31,67 @@ export interface GroupItem {
   themeColor: string;
   lightBg: string;
   borderColor: string;
+  members: string[];
 }
 
-const STORAGE_KEY_SCOREBOARD = 'mawas_diri_papan_skor';
+export const STORAGE_KEY_SCOREBOARD = 'mawas_diri_papan_skor';
 
-const INITIAL_GROUPS: GroupItem[] = [
+export const DEFAULT_STUDENTS_LIST: string[] = [
+  'Silvi',
+  'Zahrul',
+  'Nikken P',
+  'Adit',
+  'Faul',
+  'Tamam',
+  'Kafi',
+  'Aida',
+  'Salma',
+  'Eva',
+  'Hima',
+  'Niken A',
+  'Fara',
+  'Alim',
+  'Alif',
+  'Stephani',
+  'Eli',
+  'Amri',
+  'Adkha',
+  'Hafid',
+  'Ihsan',
+  'Habibah',
+  'Alifia'
+];
+
+export const INITIAL_GROUPS: GroupItem[] = [
   {
     id: 1,
     name: 'Kelompok 1',
     score: 0,
     colorName: 'Biru Langit',
-    themeColor: '#AFC4D5',
-    lightBg: 'bg-[#AFC4D5]/10',
-    borderColor: 'border-[#AFC4D5]/60'
+    themeColor: '#0284C7',
+    lightBg: 'bg-sky-50',
+    borderColor: 'border-sky-300',
+    members: ['Silvi', 'Zahrul', 'Nikken P', 'Adit', 'Faul', 'Tamam', 'Kafi', 'Aida']
   },
   {
     id: 2,
     name: 'Kelompok 2',
     score: 0,
     colorName: 'Mawar Pastel',
-    themeColor: '#D9B8B8',
-    lightBg: 'bg-[#D9B8B8]/10',
-    borderColor: 'border-[#D9B8B8]/60'
+    themeColor: '#E11D48',
+    lightBg: 'bg-rose-50',
+    borderColor: 'border-rose-300',
+    members: ['Salma', 'Eva', 'Hima', 'Niken A', 'Fara', 'Alim', 'Alif', 'Stephani']
   },
   {
     id: 3,
     name: 'Kelompok 3',
     score: 0,
-    colorName: 'Karamel',
-    themeColor: '#B8AAA0',
-    lightBg: 'bg-[#B8AAA0]/10',
-    borderColor: 'border-[#B8AAA0]/60'
-  },
-  {
-    id: 4,
-    name: 'Kelompok 4',
-    score: 0,
-    colorName: 'Lavender',
-    themeColor: '#C8BDD8',
-    lightBg: 'bg-[#C8BDD8]/10',
-    borderColor: 'border-[#C8BDD8]/60'
-  },
-  {
-    id: 5,
-    name: 'Kelompok 5',
-    score: 0,
     colorName: 'Zamrud',
-    themeColor: '#88AB8E',
-    lightBg: 'bg-[#88AB8E]/10',
-    borderColor: 'border-[#88AB8E]/60'
+    themeColor: '#059669',
+    lightBg: 'bg-emerald-50',
+    borderColor: 'border-emerald-300',
+    members: ['Eli', 'Amri', 'Adkha', 'Hafid', 'Ihsan', 'Habibah', 'Alifia']
   }
 ];
 
@@ -100,17 +112,26 @@ export const GroupScoreboardPage: React.FC<GroupScoreboardPageProps> = ({
   currentQuizNumber,
   totalQuizQuestions
 }) => {
-  // Load groups from localStorage or fallback to initial
+  // Load groups from localStorage or fallback to initial (3 groups with members)
   const [groups, setGroups] = useState<GroupItem[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_SCOREBOARD);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length === 5) {
+        if (Array.isArray(parsed) && parsed.length === 3) {
           return parsed.map((item, idx) => ({
             ...INITIAL_GROUPS[idx],
             name: typeof item.name === 'string' && item.name.trim() !== '' ? item.name : INITIAL_GROUPS[idx].name,
-            score: typeof item.score === 'number' && !isNaN(item.score) ? Math.max(0, Math.floor(item.score)) : 0
+            score: typeof item.score === 'number' && !isNaN(item.score) ? Math.max(0, Math.floor(item.score)) : 0,
+            members: Array.isArray(item.members) && item.members.length > 0 ? item.members : INITIAL_GROUPS[idx].members
+          }));
+        } else if (Array.isArray(parsed) && parsed.length > 3) {
+          // Migrate gracefully from 5 groups to 3 groups
+          return INITIAL_GROUPS.map((initialG, idx) => ({
+            ...initialG,
+            name: typeof parsed[idx]?.name === 'string' && parsed[idx].name.trim() !== '' ? parsed[idx].name : initialG.name,
+            score: typeof parsed[idx]?.score === 'number' && !isNaN(parsed[idx].score) ? Math.max(0, Math.floor(parsed[idx].score)) : 0,
+            members: Array.isArray(parsed[idx]?.members) && parsed[idx].members.length > 0 ? parsed[idx].members : initialG.members
           }));
         }
       }
@@ -389,15 +410,14 @@ export const GroupScoreboardPage: React.FC<GroupScoreboardPageProps> = ({
       )}
 
       {/* =========================================================================
-          FIVE GROUP CARDS GRID:
-          - Displayed on 1 screen (5 columns on large screen, 2-3 on medium)
-          - Fixed card positions so teacher doesn't misclick when ranks change
+          THREE GROUP CARDS GRID:
+          - Displayed beautifully in 3 large columns for classroom projector
           - Large visible numerals
           - Inline name & score editing with keyboard propagation stopped
           - Quick action buttons: +10, +5, -5
           - "Skor Tertinggi" indicator on highest score groups (if > 0)
       ========================================================================= */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {groups.map((group) => {
           const rank = getRank(group.score);
           const isWinner = isHighestScore(group.score);
@@ -496,6 +516,28 @@ export const GroupScoreboardPage: React.FC<GroupScoreboardPageProps> = ({
                   </div>
                 )}
               </div>
+
+              {/* Member Students Tag Strip */}
+              {group.members && group.members.length > 0 && (
+                <div className="mb-2.5 p-2.5 rounded-xl bg-[#FAF7F4] border border-[#AFC4D5]/25 text-left">
+                  <div className="flex items-center justify-between text-[11px] font-bold text-[#3F4147] mb-1.5">
+                    <span className="flex items-center gap-1">
+                      <Users size={12} style={{ color: group.themeColor }} />
+                      <span>Anggota ({group.members.length} Siswa)</span>
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto pr-0.5">
+                    {group.members.map((member, mIdx) => (
+                      <span
+                        key={mIdx}
+                        className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-white border border-[#AFC4D5]/35 text-[#3F4147] shadow-2xs"
+                      >
+                        {member}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Score Display (Large Numbers, click-to-edit inline) */}
               <div className="my-2 py-3 px-2 rounded-xl bg-gradient-to-b from-[#FAF7F4] to-[#F5EFE6]/50 border border-[#AFC4D5]/25 text-center flex flex-col items-center justify-center">

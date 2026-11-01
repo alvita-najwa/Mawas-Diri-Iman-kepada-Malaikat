@@ -42,17 +42,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <span>{APP_METADATA.semester}</span>
           </div>
 
-          {/* Main Title updated to prompt's requested title */}
+          {/* Main Title - Updated as requested */}
           <div className="space-y-1.5">
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.6 }}
-              className="font-serif-display text-4xl sm:text-5xl lg:text-6xl text-[#3F4147] tracking-tight leading-[1.1] text-balance"
+              className="font-serif-display text-4xl sm:text-5xl lg:text-6xl text-[#3F4147] tracking-tight leading-[1.15] text-balance"
             >
-              KEMAWAS DIRI
-              <span className="block text-2xl sm:text-3xl lg:text-4xl text-[#B8AAA0] italic font-normal mt-1">
-                dan Introspeksi dalam Menjalani Kehidupan
+              MAWAS DIRI
+              <span className="block text-2xl sm:text-3xl lg:text-4xl text-[#88AB8E] font-medium tracking-normal mt-1.5">
+                melalui Iman kepada Malaikat Allah SWT.
               </span>
             </motion.h1>
 
@@ -62,9 +62,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               transition={{ delay: 0.3, duration: 0.5 }}
               className="pt-2 flex items-center justify-center lg:justify-start gap-2"
             >
-              <EightPointStar size={16} color="#D9B8B8" />
-              <h2 className="text-sm sm:text-base font-semibold tracking-wide text-[#3F4147]">
-                melalui Iman kepada Malaikat Allah SWT.
+              <EightPointStar size={16} color="#88AB8E" />
+              <h2 className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-[#B8AAA0]">
+                Pendidikan Agama Islam & Budi Pekerti · Kelas VII
               </h2>
             </motion.div>
           </div>
@@ -234,7 +234,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Kuis Interaktif
               </h4>
               <p className="text-xs text-[#3F4147]/80 leading-relaxed">
-                Uji pemahamanmu lewat 10 soal pilihan ganda dengan umpan balik langsung (Benar/Salah), pembahasan lengkap, dan rekap skor akhir.
+                Uji pemahamanmu lewat 5 soal pilihan ganda dengan umpan balik langsung (Benar/Salah), pembahasan lengkap, dan rekap skor akhir.
               </p>
             </div>
 
