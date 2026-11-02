@@ -99,19 +99,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           transition={{ delay: 0.35, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 flex flex-col items-center justify-center relative"
         >
-          {/* Soft arch frame background */}
-          <div className="relative w-full max-w-[340px] md:max-w-[380px] p-6 rounded-t-[140px] border border-[#AFC4D5]/35 bg-white/60 backdrop-blur-sm shadow-sm flex flex-col items-center">
+          {/* Soft arch frame background - compact & unobtrusive */}
+          <div className="relative w-full max-w-[280px] md:max-w-[320px] p-4 sm:p-5 rounded-t-[120px] border border-[#AFC4D5]/35 bg-white/60 backdrop-blur-sm shadow-sm flex flex-col items-center">
             {/* Top decorative star */}
-            <div className="absolute top-4 flex items-center gap-1.5 opacity-70">
-              <EightPointStar size={16} color="#AFC4D5" />
+            <div className="absolute top-3.5 flex items-center gap-1.5 opacity-70">
+              <EightPointStar size={14} color="#AFC4D5" />
             </div>
 
-            <div className="mt-6 mb-2">
+            <div className="mt-4 mb-1">
               <NaraCharacter
                 pose="greeting"
                 bubbleText="Assalamu'alaikum teman-teman kelas 7! Pilih menu di bawah untuk belajar materi, menyanyi lagu 10 malaikat, kuis, atau bermain cari kata ya!"
                 bubblePosition="top"
-                size="lg"
+                size="md"
               />
             </div>
 
@@ -305,8 +305,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
                     Fitur Khusus Guru / Smartboard
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-[#AFC4D5]/25 text-[#3F4147] text-[9px] font-bold uppercase">
-                    5 Kelompok
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                    3 Kelompok
                   </span>
                 </div>
                 <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] font-bold mt-0.5">

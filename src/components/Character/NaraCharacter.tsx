@@ -21,12 +21,12 @@ export const NaraCharacter: React.FC<NaraCharacterProps> = ({
 }) => {
   const shouldReduceMotion = useReducedMotion();
 
-  // Dimensions based on size
+  // Dimensions based on size - made compact and elegant as requested
   const sizeMap = {
-    sm: { width: 140, height: 180 },
-    md: { width: 200, height: 260 },
-    lg: { width: 260, height: 340 },
-    hero: { width: 320, height: 420 }
+    sm: { width: 85, height: 120 },
+    md: { width: 125, height: 175 },
+    lg: { width: 170, height: 235 },
+    hero: { width: 200, height: 275 }
   };
 
   const { width, height } = sizeMap[size];
@@ -485,15 +485,6 @@ export const NaraCharacter: React.FC<NaraCharacterProps> = ({
         >
           {renderPoseArtwork()}
         </svg>
-
-        {/* Small subtle name badge */}
-        {showNameTag && (
-          <div className="text-center mt-1">
-            <span className="text-[11px] font-semibold tracking-wider text-[#3F4147]/70 uppercase">
-              Nara · Sahabat Belajarmu
-            </span>
-          </div>
-        )}
       </motion.div>
     </div>
   );

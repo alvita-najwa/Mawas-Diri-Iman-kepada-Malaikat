@@ -20,7 +20,9 @@ import {
   Save,
   UserPlus,
   Edit3,
-  X
+  X,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import { NaraCharacter } from '../components/Character/NaraCharacter';
 import { EightPointStar } from '../components/Decorations/IslamicGeometry';
@@ -68,6 +70,165 @@ const GROUPS_THEME_DATA = [
     headerBg: 'bg-emerald-600'
   }
 ];
+
+/**
+ * Synthesizes a realistic clicking wheel-of-fortune sound using Web Audio API.
+ * Produces crisp mechanical peg clicks that start fast, gradually decelerate,
+ * and conclude with a bright celebratory chime when the wheel stops.
+ */
+class SpinWheelSoundEngine {
+  private ctx: AudioContext | null = null;
+  private isMuted: boolean = false;
+  private activeTimeouts: number[] = [];
+  private humOsc: OscillatorNode | null = null;
+  private humGain: GainNode | null = null;
+
+  private getAudioContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
+    if (!this.ctx) {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtx) {
+        this.ctx = new AudioCtx();
+      }
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
+    return this.ctx;
+  }
+
+  // Realistic peg clicking sound on each pin
+  private playClick(volume = 0.22, pitch = 950) {
+    if (this.isMuted) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    try {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(pitch, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(pitch * 0.35, ctx.currentTime + 0.02);
+
+      gain.gain.setValueAtTime(volume, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.025);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.03);
+    } catch {
+      // AudioContext error guard
+    }
+  }
+
+  // Starts the spinning wheel backsound with realistic deceleration
+  public startSpinSound(durationMs = 2800) {
+    this.stopAll();
+    if (this.isMuted) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    // Subtle whirring background hum of the spinning wheel
+    try {
+      this.humOsc = ctx.createOscillator();
+      this.humGain = ctx.createGain();
+      this.humOsc.type = 'sine';
+      this.humOsc.frequency.setValueAtTime(150, ctx.currentTime);
+      this.humOsc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + durationMs / 1000);
+
+      this.humGain.gain.setValueAtTime(0.06, ctx.currentTime);
+      this.humGain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + durationMs / 1000);
+
+      this.humOsc.connect(this.humGain);
+      this.humGain.connect(ctx.destination);
+      this.humOsc.start(ctx.currentTime);
+      this.humOsc.stop(ctx.currentTime + durationMs / 1000 + 0.05);
+    } catch {
+      // AudioContext error guard
+    }
+
+    // Schedule peg clicks with realistic wheel deceleration
+    let elapsed = 0;
+    let interval = 45;
+
+    const scheduleTick = () => {
+      if (elapsed >= durationMs) return;
+
+      this.playClick(
+        Math.min(0.28, 0.16 + Math.random() * 0.08),
+        850 + Math.random() * 200
+      );
+
+      // Deceleration curve: starts fast, progressively slows down
+      if (elapsed < 1200) {
+        interval = 45 + (elapsed / 1200) * 20; // 45ms -> 65ms
+      } else if (elapsed < 2000) {
+        interval = 65 + ((elapsed - 1200) / 800) * 80; // 65ms -> 145ms
+      } else {
+        interval = 145 + ((elapsed - 2000) / 800) * 165; // 145ms -> 310ms
+      }
+
+      elapsed += interval;
+      const tid = window.setTimeout(scheduleTick, interval);
+      this.activeTimeouts.push(tid);
+    };
+
+    scheduleTick();
+  }
+
+  // Stop all active ticking and whirring sounds immediately
+  public stopAll() {
+    this.activeTimeouts.forEach((tid) => clearTimeout(tid));
+    this.activeTimeouts = [];
+    if (this.humOsc) {
+      try {
+        this.humOsc.stop();
+      } catch {}
+      this.humOsc = null;
+    }
+  }
+
+  // Celebration chime when spin lands on final groups
+  public playWinChime() {
+    if (this.isMuted) return;
+    const ctx = this.getAudioContext();
+    if (!ctx) return;
+
+    try {
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const startTime = ctx.currentTime + idx * 0.09;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.18, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.5);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.55);
+      });
+    } catch {
+      // AudioContext error guard
+    }
+  }
+
+  public setMuted(muted: boolean) {
+    this.isMuted = muted;
+    if (muted) this.stopAll();
+  }
+}
 
 export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
   onContinueToMateri,
@@ -118,8 +279,26 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showStudentsModal, setShowStudentsModal] = useState<boolean>(false);
   const [editableNamesText, setEditableNamesText] = useState<string>(studentNames.join(', '));
+  const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const spinIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const soundEngineRef = useRef<SpinWheelSoundEngine | null>(null);
+
+  if (!soundEngineRef.current) {
+    soundEngineRef.current = new SpinWheelSoundEngine();
+  }
+
+  useEffect(() => {
+    soundEngineRef.current?.setMuted(isMuted);
+  }, [isMuted]);
+
+  // Clean up sounds and timer on unmount
+  useEffect(() => {
+    return () => {
+      if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
+      soundEngineRef.current?.stopAll();
+    };
+  }, []);
 
   // Helper to shuffle students into 3 groups
   const partitionInto3Groups = (names: string[]): [string[], string[], string[]] => {
@@ -146,11 +325,14 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
     }
   };
 
-  // Quick Randomize with rolling animation
+  // Quick Randomize with rolling animation & sound
   const handleQuickShuffle = () => {
     if (isSpinning) return;
     setIsSpinning(true);
     setToastMessage('🎲 Mengacak nama-nama anggota kelompok...');
+
+    // Play quick spin sound
+    soundEngineRef.current?.startSpinSound(640);
 
     let count = 0;
     const shuffleInterval = setInterval(() => {
@@ -167,6 +349,11 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
 
       if (count >= 8) {
         clearInterval(shuffleInterval);
+
+        // Stop spin sound and play celebratory chime
+        soundEngineRef.current?.stopAll();
+        soundEngineRef.current?.playWinChime();
+
         const [finalG1, finalG2, finalG3] = partitionInto3Groups(studentNames);
         const updated: GroupItem[] = [
           { ...groups[0], members: finalG1 },
@@ -191,12 +378,15 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
     }, 80);
   };
 
-  // Animated Spin Wheel Randomizer with real-time rolling names inside group cards
+  // Animated Spin Wheel Randomizer with backsound until stopped
   const handleStartSpin = () => {
     if (isSpinning) return;
 
     setIsSpinning(true);
     setToastMessage('🎰 Sedang memutar roda spin acak siswa...');
+
+    // Start realistic wheel spin backsound: rapid clicking ticking sounds with deceleration
+    soundEngineRef.current?.startSpinSound(2800);
 
     // Spin degree increment
     setSpinRotation((prev) => prev + 1800 + Math.floor(Math.random() * 360));
@@ -216,6 +406,10 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
     // Stop spin after 2.8 seconds and lock in the final result
     setTimeout(() => {
       if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
+
+      // Stop spinning wheel backsound and play celebration chime
+      soundEngineRef.current?.stopAll();
+      soundEngineRef.current?.playWinChime();
 
       const [finalG1, finalG2, finalG3] = partitionInto3Groups(studentNames);
       const updated: GroupItem[] = [
@@ -240,13 +434,6 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
       setTimeout(() => setToastMessage(null), 5000);
     }, 2800);
   };
-
-  // Clean up timer on unmount
-  useEffect(() => {
-    return () => {
-      if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
-    };
-  }, []);
 
   // Save edited student list
   const handleSaveStudentList = () => {
@@ -358,6 +545,20 @@ export const PembagianKelompokPage: React.FC<PembagianKelompokPageProps> = ({
               >
                 <Shuffle size={14} className="text-indigo-600" />
                 <span>⚡ Acak Cepat</span>
+              </button>
+
+              {/* Sound Toggle Button */}
+              <button
+                onClick={() => setIsMuted((prev) => !prev)}
+                className={`flex items-center justify-center p-2.5 rounded-xl border transition-all active:scale-95 shadow-2xs cursor-pointer ${
+                  isMuted
+                    ? 'border-slate-300 bg-slate-100 text-slate-500 hover:bg-slate-200'
+                    : 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
+                }`}
+                title={isMuted ? 'Suara efek dimatikan (Klik untuk mengaktifkan)' : 'Suara efek putaran roda aktif (Klik untuk membisukan)'}
+                aria-label={isMuted ? 'Aktifkan Suara' : 'Matikan Suara'}
+              >
+                {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} className="text-emerald-700" />}
               </button>
 
               <button

@@ -6,6 +6,7 @@ import { useWordSearchProgress } from './hooks/useWordSearchProgress';
 import { Navbar, AppTab } from './components/Navigation/Navbar';
 import { BottomNav } from './components/Navigation/BottomNav';
 import { CelestialBackgroundPattern } from './components/Decorations/IslamicGeometry';
+import { InteractiveFloatingAmbience } from './components/Decorations/InteractiveFloatingAmbience';
 
 // Learning Module Pages
 import { LandingPage } from './pages/01_LandingPage';
@@ -250,6 +251,9 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      {/* Global Interactive Ambient Elements: Flying Dove, Walking Pencil, and Floating Open Book */}
+      <InteractiveFloatingAmbience />
 
       {/* Bottom Nav Controls (displayed only when reading guided learning modules) */}
       {activeTab === 'materi' && currentPage > 1 && (
