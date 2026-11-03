@@ -35,6 +35,7 @@ import {
 interface WordSearchGameProps {
   onBackToHome: () => void;
   onGoToQuiz: () => void;
+  onGoToLkpd?: () => void;
   onGoToScoreboard?: () => void;
   wordSearchProgress?: ReturnType<typeof useWordSearchProgress>;
 }
@@ -42,6 +43,7 @@ interface WordSearchGameProps {
 export const WordSearchGame: React.FC<WordSearchGameProps> = ({
   onBackToHome,
   onGoToQuiz,
+  onGoToLkpd,
   onGoToScoreboard,
   wordSearchProgress: externalProgress
 }) => {
@@ -1042,10 +1044,10 @@ export const WordSearchGame: React.FC<WordSearchGameProps> = ({
 
                 <div className="flex gap-2">
                   <button
-                    onClick={onGoToQuiz}
-                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#3F4147] text-white text-xs font-semibold hover:bg-[#2B2D31] transition-all cursor-pointer"
+                    onClick={onGoToLkpd || onGoToQuiz}
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-sky-700 text-white text-xs font-semibold hover:bg-sky-800 transition-all cursor-pointer shadow-sm"
                   >
-                    <span>Lanjut ke Kuis</span>
+                    <span>Lanjut ke LKPD</span>
                     <ArrowRight size={14} />
                   </button>
 

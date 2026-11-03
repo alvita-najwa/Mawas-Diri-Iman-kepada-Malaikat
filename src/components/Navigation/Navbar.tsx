@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Menu, X, BookOpen, Compass, CheckCircle2, HelpCircle, Search, Home, Music, Trophy } from 'lucide-react';
+import { Menu, X, BookOpen, Compass, CheckCircle2, HelpCircle, Search, Home, Music, Trophy, ClipboardList } from 'lucide-react';
 import { MENU_MODULES, APP_METADATA } from '../../data/learningContent';
 import { EightPointStar } from '../Decorations/IslamicGeometry';
 
-export type AppTab = 'beranda' | 'materi' | 'video-lagu' | 'kuis' | 'cari-kata' | 'papan-skor';
+export type AppTab = 'beranda' | 'materi' | 'video-lagu' | 'cari-kata' | 'lkpd' | 'kuis' | 'papan-skor';
 
 interface NavbarProps {
   currentPage: number;
@@ -34,11 +34,14 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (activeTab === 'video-lagu') {
       return 'MARI MENGHAFAL 10 MALAIKAT';
     }
-    if (activeTab === 'kuis') {
-      return 'KUIS INTERAKTIF';
-    }
     if (activeTab === 'cari-kata') {
       return 'GAME CARI KATA';
+    }
+    if (activeTab === 'lkpd') {
+      return 'LKPD SISWA (FASE D)';
+    }
+    if (activeTab === 'kuis') {
+      return 'KUIS INTERAKTIF';
     }
     if (activeTab === 'beranda') {
       return 'BERANDA UTAMA';
@@ -146,16 +149,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => onSelectTab('kuis')}
-              className={`transition-colors flex items-center gap-1.5 ${
-                activeTab === 'kuis' ? 'text-[#3F4147] font-bold border-b-2 border-[#3F4147] pb-0.5' : 'hover:text-[#3F4147]'
-              }`}
-            >
-              <HelpCircle size={13} />
-              <span>Kuis</span>
-            </button>
-
-            <button
               onClick={() => onSelectTab('cari-kata')}
               className={`transition-colors flex items-center gap-1.5 ${
                 activeTab === 'cari-kata' ? 'text-[#3F4147] font-bold border-b-2 border-[#3F4147] pb-0.5' : 'hover:text-[#3F4147]'
@@ -163,6 +156,26 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Search size={13} />
               <span>Cari Kata</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTab('lkpd')}
+              className={`transition-colors flex items-center gap-1.5 ${
+                activeTab === 'lkpd' ? 'text-sky-700 font-bold border-b-2 border-sky-700 pb-0.5' : 'hover:text-sky-700'
+              }`}
+            >
+              <ClipboardList size={13} />
+              <span>LKPD</span>
+            </button>
+
+            <button
+              onClick={() => onSelectTab('kuis')}
+              className={`transition-colors flex items-center gap-1.5 ${
+                activeTab === 'kuis' ? 'text-[#3F4147] font-bold border-b-2 border-[#3F4147] pb-0.5' : 'hover:text-[#3F4147]'
+              }`}
+            >
+              <HelpCircle size={13} />
+              <span>Kuis</span>
             </button>
 
             <button
@@ -280,19 +293,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               <button
                 onClick={() => {
-                  onSelectTab('kuis');
-                  setDrawerOpen(false);
-                }}
-                className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-left text-xs font-semibold transition-colors ${
-                  activeTab === 'kuis' ? 'bg-[#3F4147] text-white shadow-sm' : 'bg-white/80 text-[#3F4147] hover:bg-white'
-                }`}
-              >
-                <HelpCircle size={15} />
-                <span>Kuis Pilihan Ganda Interaktif</span>
-              </button>
-
-              <button
-                onClick={() => {
                   onSelectTab('cari-kata');
                   setDrawerOpen(false);
                 }}
@@ -302,6 +302,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Search size={15} />
                 <span>Game Cari Kata (10 Malaikat)</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  onSelectTab('lkpd');
+                  setDrawerOpen(false);
+                }}
+                className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-left text-xs font-semibold transition-colors ${
+                  activeTab === 'lkpd' ? 'bg-sky-700 text-white shadow-sm' : 'bg-white/80 text-sky-900 hover:bg-white'
+                }`}
+              >
+                <ClipboardList size={15} />
+                <span>LKPD Siswa (Fase D)</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  onSelectTab('kuis');
+                  setDrawerOpen(false);
+                }}
+                className={`w-full flex items-center gap-2.5 p-2.5 rounded-xl text-left text-xs font-semibold transition-colors ${
+                  activeTab === 'kuis' ? 'bg-[#3F4147] text-white shadow-sm' : 'bg-white/80 text-[#3F4147] hover:bg-white'
+                }`}
+              >
+                <HelpCircle size={15} />
+                <span>Kuis Pilihan Ganda Interaktif</span>
               </button>
 
               <button

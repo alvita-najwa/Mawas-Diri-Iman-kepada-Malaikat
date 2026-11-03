@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, BookOpen, HelpCircle, Search, Sparkles, Music, Trophy, Users } from 'lucide-react';
+import { ArrowRight, BookOpen, HelpCircle, Search, Sparkles, Music, Trophy, Users, ClipboardList } from 'lucide-react';
 import { NaraCharacter } from '../components/Character/NaraCharacter';
 import { EightPointStar } from '../components/Decorations/IslamicGeometry';
 import { APP_METADATA } from '../data/learningContent';
@@ -10,6 +10,7 @@ interface LandingPageProps {
   onGoToVideoLagu: () => void;
   onGoToQuiz: () => void;
   onGoToWordSearch: () => void;
+  onGoToLkpd?: () => void;
   onGoToScoreboard?: () => void;
 }
 
@@ -18,6 +19,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onGoToVideoLagu,
   onGoToQuiz,
   onGoToWordSearch,
+  onGoToLkpd,
   onGoToScoreboard
 }) => {
   return (
@@ -135,13 +137,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </h3>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
           {/* Menu 1: Materi Pembelajaran */}
           <motion.div
             whileHover={{ y: -4, scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={onStartMateri}
-            className="group cursor-pointer rounded-2xl border-2 border-[#AFC4D5]/50 bg-white p-5 shadow-sm hover:border-[#AFC4D5] hover:shadow-md transition-all flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border-2 border-[#AFC4D5]/50 bg-white p-4 sm:p-5 shadow-sm hover:border-[#AFC4D5] hover:shadow-md transition-all flex flex-col justify-between"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -152,23 +154,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             }}
           >
             <div>
-              <div className="w-11 h-11 rounded-xl bg-[#AFC4D5]/20 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#AFC4D5] group-hover:text-white transition-colors">
-                <BookOpen size={22} />
+              <div className="w-10 h-10 rounded-xl bg-[#AFC4D5]/20 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#AFC4D5] group-hover:text-white transition-colors">
+                <BookOpen size={20} />
               </div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
                 Modul Interaktif
               </span>
-              <h4 className="font-serif-display text-lg text-[#3F4147] mt-0.5 mb-1.5">
+              <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] mt-0.5 mb-1">
                 Materi Pembelajaran
               </h4>
-              <p className="text-xs text-[#3F4147]/80 leading-relaxed">
-                Pelajari pengertian & hakikat iman kepada malaikat, 10 nama & tugas malaikat, serta pengamalan mawas diri dan introspeksi.
+              <p className="text-[11px] sm:text-xs text-[#3F4147]/80 leading-relaxed">
+                Pelajari pengertian & dalil iman malaikat, 10 nama & tugasnya, serta muhasabah diri.
               </p>
             </div>
 
             <div className="pt-3 mt-3 border-t border-[#AFC4D5]/15 flex items-center justify-between text-xs font-semibold text-[#3F4147] group-hover:text-[#AFC4D5]">
               <span>Mulai Belajar</span>
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </div>
           </motion.div>
 
@@ -177,7 +179,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             whileHover={{ y: -4, scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={onGoToVideoLagu}
-            className="group cursor-pointer rounded-2xl border-2 border-[#D9B8B8]/50 bg-white p-5 shadow-sm hover:border-[#D9B8B8] hover:shadow-md transition-all flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border-2 border-[#D9B8B8]/50 bg-white p-4 sm:p-5 shadow-sm hover:border-[#D9B8B8] hover:shadow-md transition-all flex flex-col justify-between"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -188,68 +190,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             }}
           >
             <div>
-              <div className="w-11 h-11 rounded-xl bg-[#D9B8B8]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#D9B8B8] group-hover:text-white transition-colors">
-                <Music size={22} />
+              <div className="w-10 h-10 rounded-xl bg-[#D9B8B8]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#D9B8B8] group-hover:text-white transition-colors">
+                <Music size={20} />
               </div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
-                Video & Lagu Interaktif
+                Lagu & Hafalan
               </span>
-              <h4 className="font-serif-display text-lg text-[#3F4147] mt-0.5 mb-1.5">
-                Mari Menghafal 10 Malaikat
+              <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] mt-0.5 mb-1">
+                Lagu 10 Malaikat
               </h4>
-              <p className="text-xs text-[#3F4147]/80 leading-relaxed">
-                Tonton video lagu 10 malaikat dan tugas mulianya, bernyanyi bersama panduan lirik interaktif per bait di kelas.
+              <p className="text-[11px] sm:text-xs text-[#3F4147]/80 leading-relaxed">
+                Tonton video lagu 10 malaikat bernyanyi bersama panduan lirik interaktif di kelas.
               </p>
             </div>
 
             <div className="pt-3 mt-3 border-t border-[#D9B8B8]/20 flex items-center justify-between text-xs font-semibold text-[#3F4147] group-hover:text-[#D9B8B8]">
-              <span>▶ Mulai Menghafal</span>
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              <span>▶ Buka Lagu</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </div>
           </motion.div>
 
-          {/* Menu 3: Kuis Interaktif */}
-          <motion.div
-            whileHover={{ y: -4, scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onGoToQuiz}
-            className="group cursor-pointer rounded-2xl border-2 border-[#B8AAA0]/50 bg-white p-5 shadow-sm hover:border-[#B8AAA0] hover:shadow-md transition-all flex flex-col justify-between"
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onGoToQuiz();
-              }
-            }}
-          >
-            <div>
-              <div className="w-11 h-11 rounded-xl bg-[#B8AAA0]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#B8AAA0] group-hover:text-white transition-colors">
-                <HelpCircle size={22} />
-              </div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
-                Uji Pemahaman
-              </span>
-              <h4 className="font-serif-display text-lg text-[#3F4147] mt-0.5 mb-1.5">
-                Kuis Interaktif
-              </h4>
-              <p className="text-xs text-[#3F4147]/80 leading-relaxed">
-                Uji pemahamanmu lewat 5 soal pilihan ganda dengan umpan balik langsung (Benar/Salah), pembahasan lengkap, dan rekap skor akhir.
-              </p>
-            </div>
-
-            <div className="pt-3 mt-3 border-t border-[#B8AAA0]/20 flex items-center justify-between text-xs font-semibold text-[#3F4147] group-hover:text-[#B8AAA0]">
-              <span>Mulai Kuis</span>
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
-            </div>
-          </motion.div>
-
-          {/* Menu 4: Game Cari Kata */}
+          {/* Menu 3: Game Cari Kata */}
           <motion.div
             whileHover={{ y: -4, scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={onGoToWordSearch}
-            className="group cursor-pointer rounded-2xl border-2 border-[#C8BDD8]/50 bg-white p-5 shadow-sm hover:border-[#C8BDD8] hover:shadow-md transition-all flex flex-col justify-between"
+            className="group cursor-pointer rounded-2xl border-2 border-[#C8BDD8]/50 bg-white p-4 sm:p-5 shadow-sm hover:border-[#C8BDD8] hover:shadow-md transition-all flex flex-col justify-between"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -260,23 +226,95 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             }}
           >
             <div>
-              <div className="w-11 h-11 rounded-xl bg-[#C8BDD8]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#C8BDD8] group-hover:text-white transition-colors">
-                <Search size={22} />
+              <div className="w-10 h-10 rounded-xl bg-[#C8BDD8]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#C8BDD8] group-hover:text-white transition-colors">
+                <Search size={20} />
               </div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
                 Teka-Teki Huruf
               </span>
-              <h4 className="font-serif-display text-lg text-[#3F4147] mt-0.5 mb-1.5">
+              <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] mt-0.5 mb-1">
                 Game Cari Kata
               </h4>
-              <p className="text-xs text-[#3F4147]/80 leading-relaxed">
-                Asah ketelitianmu mencari 10 nama malaikat Allah Swt. yang tersembunyi pada papan acak huruf secara mendatar dan menurun.
+              <p className="text-[11px] sm:text-xs text-[#3F4147]/80 leading-relaxed">
+                Asah ketelitianmu mencari 10 nama malaikat Allah Swt. yang tersembunyi di papan huruf.
               </p>
             </div>
 
             <div className="pt-3 mt-3 border-t border-[#C8BDD8]/20 flex items-center justify-between text-xs font-semibold text-[#3F4147] group-hover:text-[#C8BDD8]">
               <span>Mainkan Game</span>
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </div>
+          </motion.div>
+
+          {/* Menu 4: LKPD Siswa (Fase D) - Persis Setelah Cari Kata */}
+          <motion.div
+            whileHover={{ y: -4, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onGoToLkpd}
+            className="group cursor-pointer rounded-2xl border-2 border-sky-300 bg-white p-4 sm:p-5 shadow-sm hover:border-sky-500 hover:shadow-md transition-all flex flex-col justify-between"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (onGoToLkpd) onGoToLkpd();
+              }
+            }}
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-sky-800 mb-3 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                <ClipboardList size={20} />
+              </div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-600">
+                Lembar Kerja
+              </span>
+              <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] mt-0.5 mb-1">
+                LKPD Siswa
+              </h4>
+              <p className="text-[11px] sm:text-xs text-[#3F4147]/80 leading-relaxed">
+                Kerjakan LKPD 3 bagian: konsep dasar, nama/tugas, dan studi kasus sebelum kuis.
+              </p>
+            </div>
+
+            <div className="pt-3 mt-3 border-t border-sky-100 flex items-center justify-between text-xs font-semibold text-sky-700 group-hover:text-sky-900">
+              <span>Isi Lembar Kerja</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            </div>
+          </motion.div>
+
+          {/* Menu 5: Kuis Interaktif */}
+          <motion.div
+            whileHover={{ y: -4, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onGoToQuiz}
+            className="group cursor-pointer rounded-2xl border-2 border-[#B8AAA0]/50 bg-white p-4 sm:p-5 shadow-sm hover:border-[#B8AAA0] hover:shadow-md transition-all flex flex-col justify-between"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onGoToQuiz();
+              }
+            }}
+          >
+            <div>
+              <div className="w-10 h-10 rounded-xl bg-[#B8AAA0]/25 flex items-center justify-center text-[#3F4147] mb-3 group-hover:bg-[#B8AAA0] group-hover:text-white transition-colors">
+                <HelpCircle size={20} />
+              </div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#B8AAA0]">
+                Uji Pemahaman
+              </span>
+              <h4 className="font-serif-display text-base sm:text-lg text-[#3F4147] mt-0.5 mb-1">
+                Kuis Interaktif
+              </h4>
+              <p className="text-[11px] sm:text-xs text-[#3F4147]/80 leading-relaxed">
+                Uji pemahamanmu lewat 5 soal pilihan ganda dengan umpan balik langsung & rekap skor.
+              </p>
+            </div>
+
+            <div className="pt-3 mt-3 border-t border-[#B8AAA0]/20 flex items-center justify-between text-xs font-semibold text-[#3F4147] group-hover:text-[#B8AAA0]">
+              <span>Mulai Kuis</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </div>
           </motion.div>
         </div>

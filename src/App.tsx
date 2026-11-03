@@ -33,6 +33,7 @@ import { GroupScoreboardPage } from './pages/GroupScoreboardPage';
 // Interactive Activities
 import { InteractiveQuiz } from './components/Quiz/InteractiveQuiz';
 import { WordSearchGame } from './components/WordSearch/WordSearchGame';
+import { LKPDPage } from './pages/LKPDPage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<AppTab>('beranda');
@@ -119,8 +120,20 @@ export default function App() {
         <WordSearchGame
           onBackToHome={() => setActiveTab('beranda')}
           onGoToQuiz={handleGoToQuiz}
+          onGoToLkpd={() => setActiveTab('lkpd')}
           onGoToScoreboard={() => setActiveTab('papan-skor')}
           wordSearchProgress={wordSearchProgress}
+        />
+      );
+    }
+
+    // Top-Level Interactive Activity: LKPD Siswa (Fase D) - Sebelum Kuis
+    if (activeTab === 'lkpd') {
+      return (
+        <LKPDPage
+          onBackToWordSearch={() => setActiveTab('cari-kata')}
+          onGoToQuiz={handleGoToQuiz}
+          onBackToHome={() => setActiveTab('beranda')}
         />
       );
     }
@@ -133,6 +146,7 @@ export default function App() {
           onGoToVideoLagu={() => setActiveTab('video-lagu')}
           onGoToQuiz={handleGoToQuiz}
           onGoToWordSearch={() => setActiveTab('cari-kata')}
+          onGoToLkpd={() => setActiveTab('lkpd')}
           onGoToScoreboard={() => setActiveTab('papan-skor')}
         />
       );
